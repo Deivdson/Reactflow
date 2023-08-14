@@ -1,0 +1,32 @@
+{
+  "name": "example",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@blueprintjs/core": "^5.2.0",
+    "@types/node": "20.4.8",
+    "@types/react": "18.2.19",
+    "@types/react-dom": "18.2.7",
+    "blueprintjs": "^0.0.8",
+    "gojs": "^2.3.10",
+    "gridstack": "^8.4.0",
+    "jquery": "^3.7.0",
+    "next": "13.4.13",
+    "prismjs": "^1.29.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-flow-renderer": "^10.3.17",
+    "react-simple-code-editor": "^0.13.1",
+    "react-stack-grid": "^0.7.1",
+    "reactflow": "^11.7.4",
+    "styled-components": "^6.0.7",
+    "typescript": "5.1.6",
+    "valtio": "^1.11.1"
+  }
+}
