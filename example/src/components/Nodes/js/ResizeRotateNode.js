@@ -10,6 +10,7 @@ export default function ResizeRotateNode({
   sourcePosition = Position.Left,
   targetPosition = Position.Right,
   data,
+  
 }) {
   const rotateControlRef = useRef(null);
   const updateNodeInternals = useUpdateNodeInternals();
@@ -17,10 +18,15 @@ export default function ResizeRotateNode({
   const [resizable, setResizable] = useState(true);
   const [rotatable, setRotatable] = useState(true);
 
+  const [disponivel, setDisponivel] = useState(true);
+  const [emVenda, setEmVenda] = useState(false);
+  const [vendido, setVendido] = useState(false);
+
   useEffect(() => {
     if (!rotateControlRef.current) {
       return;
     }
+ 
 
     const selection = select(rotateControlRef.current);
     const dragHandler = drag().on('drag', (evt) => {
@@ -40,6 +46,7 @@ export default function ResizeRotateNode({
       <div
         style={{
           transform: `rotate(${rotation}deg)`,
+          backgroundColor: '#AFFFAD'
         }}
         className={styles.node}
       >
@@ -71,6 +78,36 @@ export default function ResizeRotateNode({
                 onChange={(evt) => setRotatable(evt.target.checked)}
               />
               rotatable
+            </label>
+          </div>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={disponivel}
+                onChange={(evt) => setDisponivel(evt.target.checked)}
+              />
+              Disponível
+            </label>
+          </div>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={emVenda}
+                onChange={(evt) => setEmVenda(evt.target.checked)}
+              />
+              Em venda
+            </label>
+          </div>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={vendido}
+                onChange={(evt) => setVendido(evt.target.checked)}
+              />
+              Vendido
             </label>
           </div>
         </div>

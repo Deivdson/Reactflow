@@ -37,6 +37,7 @@ const nodes = [
     targetPosition: Position.Top,
     selected: true,
     style: { width: 180, height: 100 },
+    cor: 1
   },
   {
     id: '2',
@@ -46,6 +47,7 @@ const nodes = [
     sourcePosition: Position.Bottom,
     targetPosition: Position.Top,
     style: { width: 180, height: 100 },
+    cor: 1
   },
 ];
 
@@ -66,19 +68,6 @@ const defaultEdgeOptions = {
   },
 };
 
-function ReactFlowPro() {
-  return (
-    <ReactFlow      
-      defaultNodes={nodes}
-      defaultEdges={edges}
-      defaultViewport={{ zoom: 1, x: 0, y: 0 }}
-      fitView
-      fitViewOptions={{ padding: 0.4 }}
-    >
-      <Background />
-    </ReactFlow>
-  );
-}
 
 export default function ReactFlowWrapper(props: any) {
   return (

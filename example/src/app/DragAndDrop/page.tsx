@@ -23,7 +23,8 @@ import ResizableNodeSelected from '@/components/Nodes/ResizableNodeSelected';
 import CustomResizerNode from '@/components/Nodes/CustomResizerNode';
 import Sidebar from './Sidebar';
 import ResizeRotateNode from '@/components/Nodes/js/ResizeRotateNode';
-
+import styles from '@/components/Nodes/js/style.module.css'
+import rotation from '@/components/Nodes/js/ResizeRotateNode'
 
 const nodeTypes = {
   ResizableNode,
