@@ -4,6 +4,7 @@ import { drag } from 'd3-drag';
 import { select } from 'd3-selection';
 
 import styles from './style.module.css';
+import { Alert } from '@blueprintjs/core';
 
 export default function ResizeRotateNode({
   id,
@@ -22,7 +23,7 @@ export default function ResizeRotateNode({
   const [emVenda, setEmVenda] = useState(false);
   const [vendido, setVendido] = useState(false);
 
-
+  const[status, setStatus] = useState('Vendido')
   
 
   useEffect(() => {
@@ -48,8 +49,9 @@ export default function ResizeRotateNode({
     <>
       <div
         style={{
-          transform: `rotate(${rotation}deg)`,
-          backgroundColor: '#AFFFAD',
+          transform: `rotate(${rotation}deg)`,        
+          backgroundColor: `${status=='Disponivel'? '#AFFFAD':status=='Reservado'?'#D4AF37':status=='EmVenda'?'#D3D71F':status=='Vendido'?'#6FBAFF':'#FFFF'}`,
+          width:'50%',
         }}
         className={styles.node}
       >
@@ -70,7 +72,7 @@ export default function ResizeRotateNode({
                 checked={resizable}
                 onChange={(evt) => setResizable(evt.target.checked)}
               />
-              resizable
+              Tamanho
             </label>
           </div>
           <div>
@@ -80,39 +82,19 @@ export default function ResizeRotateNode({
                 checked={rotatable}
                 onChange={(evt) => setRotatable(evt.target.checked)}
               />
-              rotatable
+              Rotação
             </label>
           </div>
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                checked={disponivel}
-                onChange={(evt) => setDisponivel(evt.target.checked)}
-              />
-              Disponível
-            </label>
-          </div>
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                checked={emVenda}
-                onChange={(evt) => setEmVenda(evt.target.checked)}
-              />
-              Em venda
-            </label>
-          </div>
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                checked={vendido}
-                onChange={(evt) => setVendido(evt.target.checked)}
-              />
-              Vendido
-            </label>
-          </div>
+
+          <select name='select' style={{width:'110%'}}>
+            <option onClick={() => {console.log("Disponivel"); setStatus('Disponivel')}} value='1'>Disponível</option>
+            <option onClick={() => {console.log("Reservado"); setStatus('Reservado')}} value='2'>Reservado</option>
+            <option onClick={() => {console.log("Em Venda"); setStatus('EmVenda')}} selected value='3'>Em venda</option>
+            <option onClick={() => {console.log("Vendido"); setStatus('Vendido')}} value='4'>Vendido</option>
+          </select>
+          <input  placeholder='Código' style={{width:'110%'}}/>
+
+         
         </div>
         <Handle style={{ opacity: 0 }} position={sourcePosition} type="source" />
         <Handle style={{ opacity: 0 }} position={targetPosition} type="target" />

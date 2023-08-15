@@ -97,49 +97,27 @@ interface initialEdges {
 const initialEdges:initialEdges[] = [];
 
 let id = 0;
-const getId = () => `dndnode_${+new Date()}`;
+const getId = () => `dndnode_${id++}`;
 
+export default function Home() {
 
-
-const SaveRestore = () => {
+  const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [rfInstance, setRfInstance] = useState(null);
-  const { setViewport } = useReactFlow();
-  const reactFlowWrapper = useRef(null);
 
-  const onConnect = useCallback((params:any) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
-  
-  const onSave = useCallback(() => {
-    if (rfInstance) {
-      const flow = rfInstance.toObject();
-      localStorage.setItem(flowKey, JSON.stringify(flow));
-      console.log(`FLOW: ${JSON.stringify(flow)}`)
-    }
-  }, [rfInstance]);
 
-  const onRestore = useCallback(() => {
-    const restoreFlow = async () => {
-      const flow = JSON.parse(localStorage.getItem(flowKey));      
-      console.log(`FLOW: ${JSON.stringify(flow)}`)
-      if (flow) {
-        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
-        setNodes(flow.nodes || []);
-        setEdges(flow.edges || []);
-        setViewport({ x, y, zoom });
-      }
-    };
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
-    restoreFlow();
-  }, [setNodes, setViewport]);
+  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
 
-  const onDragOver = useCallback((event:any) => {
+
+  const onDragOver = useCallback((event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
   const onDrop = useCallback(
-    (event:any) => {
+    (event) => {
       event.preventDefault();
 
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
@@ -150,7 +128,7 @@ const SaveRestore = () => {
         return;
       }
 
-      const position = rfInstance.project({
+      const position = reactFlowInstance.project({
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
@@ -160,7 +138,7 @@ const SaveRestore = () => {
         //type: 'CustomResizerNode',
         type: `${type=='Disponivel'? 'ResizeRotateD' : type=='Reservado'? 'ResizeRotateR': type=='Em venda'? 'ResizeRotateEV': 'ResizeRotateV'}`,
         position,
-        data: { label: `Status\n${type}` },
+        data: { label: `${type} node` },
         style: {                    
           fontSize: 12,
           //border: '1px solid black',
@@ -176,57 +154,38 @@ const SaveRestore = () => {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [rfInstance]
+    [reactFlowInstance]
   );
 
-  return (
-    <div className="reactflow-wrapper" ref={reactFlowWrapper}>
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-      onInit={setRfInstance}
 
+  return (
+    <div className="dndflow" style={{ width: '100vw', height: '100vh' }}>
+      <ReactFlowProvider>
+      <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+      <ReactFlow
       defaultNodes={initialNodes}
       defaultEdges={initialEdges}
       className="react-flow__edge-path"
       minZoom={0.2}
       maxZoom={4}
       fitView
-      nodeTypes={nodeTypes}            
+      nodeTypes={nodeTypes}
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      onInit={setReactFlowInstance}
       onDrop={onDrop}
       onDragOver={onDragOver}      
     >
-
-
+      
    
       <Background variant={BackgroundVariant.Dots} />
       <MiniMap />
       <Controls />
-    
-      <Panel position="top-right">
-        <button onClick={onSave}>save</button>
-        <button onClick={onRestore}>restore</button>        
-      </Panel>
     </ReactFlow>
     </div>
-  );
-};
-
-export default function Home() {
-
-  
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
-
-
-  return (
-    <div className="dndflow" style={{ width: '100vw', height: '100vh' }}>
-      <ReactFlowProvider>    
-        <SaveRestore /> 
       <Sidebar/>
     </ReactFlowProvider>
     </div>

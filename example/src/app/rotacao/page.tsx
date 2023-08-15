@@ -36,7 +36,7 @@ const nodes = [
     sourcePosition: Position.Bottom,
     targetPosition: Position.Top,
     selected: true,
-    style: { width: 180, height: 100 },
+    style: { width: 180, height: 100},
     cor: 1
   },
   {

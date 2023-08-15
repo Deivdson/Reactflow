@@ -35,6 +35,9 @@
   .dndflow .dndnode.output {
     border-color: #D3D71F;
   }
+  .dndflow .dndnode.vendido{
+    border-color: #6FBAFF;
+  }
   
   .dndflow .reactflow-wrapper {
     flex-grow: 1;
