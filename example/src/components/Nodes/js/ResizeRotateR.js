@@ -51,11 +51,11 @@ export default function ResizeRotateNode({
         style={{
           transform: `rotate(${rotation}deg)`,        
           backgroundColor: `${status=='Disponivel'? '#AFFFAD':status=='Reservado'?'#D4AF37':status=='EmVenda'?'#D3D71F':status=='Vendido'?'#6FBAFF':'#FFFF'}`,
-          width:'50%',
+          width:'100%',
         }}
         className={styles.node}
       >
-        <NodeResizer isVisible={resizable} minWidth={180} minHeight={100} />
+        <NodeResizer isVisible={resizable}/>
         <div
           ref={rotateControlRef}
           style={{
